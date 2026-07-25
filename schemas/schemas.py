@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel
 
 
@@ -12,11 +11,13 @@ class UserSchema(BaseModel):
     class Config:
         from_attributes = True
 
+
 class OrderSchema(BaseModel):
     user_id: int
 
     class Config:
         from_attributes = True
+
 
 class ItemOrderSchema(BaseModel):
     quantity: int
@@ -27,12 +28,14 @@ class ItemOrderSchema(BaseModel):
     class Config:
         from_attributes = True
 
+
 class LoginSchema(BaseModel):
     email: str
     password: str
 
     class Config:
         from_attibutes = True
+
 
 class ResponseOrdersSchema(BaseModel):
     id: int

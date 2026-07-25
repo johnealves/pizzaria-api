@@ -5,11 +5,12 @@ Revises: baad51e487f0
 Create Date: 2026-07-23 20:22:55.077949
 
 """
+
 from collections.abc import Sequence
 
 # revision identifiers, used by Alembic.
-revision: str = '8ac45cf8e26d'
-down_revision: str | Sequence[str] | None = 'baad51e487f0'
+revision: str = "8ac45cf8e26d"
+down_revision: str | Sequence[str] | None = "baad51e487f0"
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
 

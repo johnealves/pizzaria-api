@@ -21,6 +21,7 @@ class Order(Base):
     def count_price(self):
         self.price = sum(item.unit_price * item.quantity for item in self.items)
 
+
 class OrderItem(Base):
     __tablename__ = "order_items"
 
@@ -30,7 +31,6 @@ class OrderItem(Base):
     amount = Column("amount", Integer, nullable=False)
     unit_price = Column("unit_price", Float, nullable=False)
     order_id = Column("order_id", Integer, ForeignKey("orders.id"), nullable=False)
-
 
     def __init__(self, quantity, flavor, amount, unit_price, order_id):
         self.quantity = quantity
