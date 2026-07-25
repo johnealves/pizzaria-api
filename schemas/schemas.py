@@ -1,12 +1,13 @@
+
 from pydantic import BaseModel
-from typing import Optional, List
+
 
 class UserSchema(BaseModel):
     name: str
     email: str
     password: str
-    active: Optional[bool] = True
-    admin: Optional[bool] = False
+    active: bool | None = True
+    admin: bool | None = False
 
     class Config:
         from_attributes = True
@@ -37,7 +38,7 @@ class ResponseOrdersSchema(BaseModel):
     id: int
     status: str
     price: float
-    items: List[ItemOrderSchema]
+    items: list[ItemOrderSchema]
 
     class Config:
         from_attributes = True

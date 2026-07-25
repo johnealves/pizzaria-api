@@ -1,13 +1,14 @@
-from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
-from models import User
-from db.dependency import get_session, get_current_user
-from main import password_hash, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY
-from schemas.schemas import UserSchema, LoginSchema
-from jose import jwt
 from datetime import datetime, timedelta, timezone
 
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
+from jose import jwt
+from sqlalchemy.orm import Session
+
+from db.dependency import get_current_user, get_session
+from main import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY, password_hash
+from models import User
+from schemas.schemas import LoginSchema, UserSchema
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -23,9 +24,7 @@ def generate_token(user_id: str, duration_token=timedelta(minutes=ACCESS_TOKEN_E
 def user_authetication(email: str, password: str, session: Session = Depends(get_session)):
     user: User = session.query(User).filter(User.email == email).first()
 
-    if not user:
-        return False
-    elif not password_hash.verify(password, user.password):
+    if not user or not password_hash.verify(password, user.password):
         return False
     else:
         return user

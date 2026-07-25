@@ -1,11 +1,12 @@
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
 from db.dependency import get_session
-from security.auth import get_current_user
-from schemas.schemas import OrderSchema, ItemOrderSchema, ResponseOrdersSchema
-from models import Order, User, OrderItem
 from enums.order_status import OrderStatusEnum
-from typing import List
+from models import Order, OrderItem, User
+from schemas.schemas import ItemOrderSchema, OrderSchema, ResponseOrdersSchema
+from security.auth import get_current_user
 
 orders_router = APIRouter(prefix="/orders", tags=["orders"], dependencies=[Depends(get_current_user)])
 
@@ -17,7 +18,7 @@ async def list_orders(session: Session = Depends(get_session), user: User = Depe
         orders = session.query(Order).all()
         return {"orders": orders}
 
-@orders_router.get('/my', response_model=List[ResponseOrdersSchema])
+@orders_router.get('/my', response_model=list[ResponseOrdersSchema])
 async def get_order_by_user(session: Session = Depends(get_session), user: User = Depends(get_current_user)):
     orders = session.query(Order).filter(Order.user_id == user.id).all()
     
