@@ -1,13 +1,11 @@
-from fastapi import Depends, HTTPException
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import Session, sessionmaker
+
 from .database import db
-from models import User
-from main import SECREAT_KEY, ALGORITHM, oauth2_schema
-from jose import jwt, JWTError
+
 
 def get_session():
     try:
-        SessionLocal= sessionmaker(bind=db)
+        SessionLocal = sessionmaker(bind=db)
         SessionLocal = Session()
         yield SessionLocal
     finally:

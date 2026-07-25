@@ -1,7 +1,7 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy import Boolean, Column, Integer, String
 
 from db.base import Base
+
 
 class User(Base):
     __tablename__ = "users"

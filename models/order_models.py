@@ -1,7 +1,8 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
 from db.base import Base
+
 
 class Order(Base):
     __tablename__ = "orders"
@@ -20,6 +21,7 @@ class Order(Base):
     def count_price(self):
         self.price = sum(item.unit_price * item.quantity for item in self.items)
 
+
 class OrderItem(Base):
     __tablename__ = "order_items"
 
@@ -29,7 +31,6 @@ class OrderItem(Base):
     amount = Column("amount", Integer, nullable=False)
     unit_price = Column("unit_price", Float, nullable=False)
     order_id = Column("order_id", Integer, ForeignKey("orders.id"), nullable=False)
-
 
     def __init__(self, quantity, flavor, amount, unit_price, order_id):
         self.quantity = quantity
