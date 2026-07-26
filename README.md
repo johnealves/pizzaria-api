@@ -15,7 +15,7 @@ O projeto foi desenvolvido com foco em boas práticas de desenvolvimento backend
 - SQLite
 - Pydantic
 - JWT (python-jose)
-- Passlib
+- pwdlib
 - Uvicorn
 
 ---
