@@ -3,15 +3,15 @@ from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
 from db.dependency import get_session
-from main import ALGORITHM, SECREAT_KEY, oauth2_schema
 from models.user_models import User
+from security.config import ALGORITHM, SECRET_KEY, oauth2_schema
 
 
 def get_current_user(
     token: str = Depends(oauth2_schema), session: Session = Depends(get_session)
 ):
     try:
-        payload = jwt.decode(token, SECREAT_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("sub")
 
         if user_id is None:
