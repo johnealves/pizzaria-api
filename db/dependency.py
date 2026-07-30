@@ -1,12 +1,10 @@
 from sqlalchemy.orm import Session, sessionmaker
 
-from .database import db
-
+from .database import SessionLocal
 
 def get_session():
     try:
-        SessionLocal = sessionmaker(bind=db)
-        SessionLocal = Session()
-        yield SessionLocal
+        session = SessionLocal()
+        yield session
     finally:
-        SessionLocal.close()
+        session.close()

@@ -5,8 +5,9 @@ from fastapi.security import OAuth2PasswordRequestForm
 from jose import jwt
 from sqlalchemy.orm import Session
 
-from db.dependency import get_current_user, get_session
-from main import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY, password_hash
+from db.dependency import get_session
+from security.auth import get_current_user
+from security.config import ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, password_hash
 from models import User
 from schemas.schemas import LoginSchema, UserSchema
 
