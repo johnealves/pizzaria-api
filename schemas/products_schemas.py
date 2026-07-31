@@ -2,6 +2,9 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+from schemas.schemas import ItemOrderSchema
+
+
 class ProductSchema(BaseModel):
     name: str
     ingredients: List[str]
@@ -12,6 +15,7 @@ class ProductSchema(BaseModel):
     class Config:
         from_attributes = True
 
+
 class UpdateProductSchema(BaseModel):
     name: str | None = None
     ingredients: List[str] | None = None
@@ -19,11 +23,13 @@ class UpdateProductSchema(BaseModel):
     is_popular: bool | None = None
     available: bool | None = None
 
+
 # Rersponse schemas
 class ProductsResponse(BaseModel):
     id: int
     name: str
     ingredients: List[str]
+    category: str
     is_popular: bool
     price: float
     available: bool
@@ -31,8 +37,17 @@ class ProductsResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class ProductsPageResponse(BaseModel):
+    data: list[ProductsResponse]
+    page: int
+    limit: int
+    total: int
+    pages: int
+
+
 class MessageResponse(BaseModel):
     message: str
+
 
 class ProductActionResponse(BaseModel):
     message: str

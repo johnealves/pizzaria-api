@@ -1,6 +1,5 @@
-from sqlalchemy.orm import Session, sessionmaker
-
 from .database import SessionLocal
+
 
 def get_session():
     try:
