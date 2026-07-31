@@ -1,7 +1,9 @@
 from sqlalchemy.orm import Session
 
 from models import Product
+
 from .products import products
+
 
 def seed_products(session: Session):
     if session.query(Product).count() > 0:

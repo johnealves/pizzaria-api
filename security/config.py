@@ -1,8 +1,8 @@
 import os
-from fastapi.security import OAuth2PasswordBearer
-from pwdlib import PasswordHash
 
 from dotenv import load_dotenv
+from fastapi.security import OAuth2PasswordBearer
+from pwdlib import PasswordHash
 
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")

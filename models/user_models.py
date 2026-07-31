@@ -1,4 +1,7 @@
-from sqlalchemy import Boolean, Column, Integer, String
+from datetime import UTC, datetime
+
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.orm import relationship
 
 from db.base import Base
 
@@ -12,10 +15,15 @@ class User(Base):
     password = Column("password", String(100), nullable=False)
     active = Column("active", Boolean, default=True)
     admin = Column("admin", Boolean, default=False)
-
-    def __init__(self, name, email, password, active=True, admin=False):
-        self.name = name
-        self.email = email
-        self.password = password
-        self.active = active
-        self.admin = admin
+    orders = relationship("Order", back_populates="user")
+    created_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
