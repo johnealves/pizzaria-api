@@ -2,17 +2,18 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
 
 from db.dependency import get_session
 from models import User
 from schemas.schemas import LoginSchema, UserSchema
-from security.auth import get_current_user, generate_token, user_authetication
+from security.auth import generate_token, get_current_user
 from security.config import (
     password_hash,
 )
+from services.auth_service import AuthService
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
+
 
 @auth_router.get("/")
 async def home():
@@ -44,7 +45,8 @@ async def create_user(user: UserSchema, session=Depends(get_session)):
 
 @auth_router.post("/login")
 async def login(login: LoginSchema, session=Depends(get_session)):
-    user: User = user_authetication(login.email, login.password, session)
+
+    user: User = AuthService(session).user_authetication(login.email, login.password, session)
 
     if not user:
         raise HTTPException(
@@ -64,7 +66,7 @@ async def login(login: LoginSchema, session=Depends(get_session)):
 async def login_form(
     form_data: OAuth2PasswordRequestForm = Depends(), session=Depends(get_session)
 ):
-    user: User = user_authetication(form_data.username, form_data.password, session)
+    user: User = AuthService(session).user_authetication(form_data.username, form_data.password, session)
 
     if not user:
         raise HTTPException(

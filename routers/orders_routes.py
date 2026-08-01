@@ -3,11 +3,11 @@ from sqlalchemy.orm import Session
 
 from db.dependency import get_session
 from enums.order_status import OrderStatusEnum
-from models import Order, OrderItem, User, Product
+from models import Order, OrderItem, User
+from schemas.order_schemas import CreateOrderResponse, OrderSchema
 from schemas.schemas import ItemOrderSchema, ResponseOrdersSchema
-from schemas.order_schemas import OrderSchema, CreateOrderResponse
 from security.auth import get_current_user
-from services.product_services import get_product_by_id
+from services.product_service import ProductService
 
 orders_router = APIRouter(
     prefix="/orders", tags=["orders"], dependencies=[Depends(get_current_user)]
@@ -52,25 +52,25 @@ async def get_order_by_id(
     return {"order": order, "items_quantity": len(order.items)}
 
 
-@orders_router.post("/", response_model=CreateOrderResponse, status_code=status.HTTP_201_CREATED)
+@orders_router.post(
+    "/", response_model=CreateOrderResponse, status_code=status.HTTP_201_CREATED
+)
 async def create_order(new_order: OrderSchema, session: Session = Depends(get_session)):
     order = Order(
-        user_id=new_order.user_id,
-        status=OrderStatusEnum.PENDENTE,
-        total_price=0
+        user_id=new_order.user_id, status=OrderStatusEnum.PENDENTE, total_price=0
     )
     session.add(order)
     session.flush()
 
     total = 0
     for item in new_order.item:
-        product = get_product_by_id(item.product_id, session)
+        product = ProductService(session).get_product_by_id(item.product_id)
 
         order_item = OrderItem(
             order_id=order.id,
             product_id=product.id,
             quantity=item.quantity,
-            unit_price=product.price
+            unit_price=product.price,
         )
 
         total += order_item.quantity * order_item.unit_price
@@ -80,10 +80,8 @@ async def create_order(new_order: OrderSchema, session: Session = Depends(get_se
 
     session.commit()
     session.refresh(order)
-    return {
-        "message": "Order created successfully",
-        "order": order
-    }
+    return {"message": "Order created successfully", "order": order}
+
 
 @orders_router.post("/add-item/{order_id}")
 async def add_item_order(
