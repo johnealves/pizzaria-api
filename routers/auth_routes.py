@@ -1,15 +1,11 @@
-from datetime import timedelta
-
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
 
 from db.dependency import get_session
 from models import User
-from schemas.schemas import LoginSchema, UserSchema
-from security.auth import generate_token, get_current_user
-from security.config import (
-    password_hash,
-)
+from schemas.auth_schemas import LoginResponse, LoginSchema
+from schemas.user_schemas import UserActionResponse, UserSchema
+from security.auth import get_current_user
 from services.auth_service import AuthService
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
@@ -20,64 +16,29 @@ async def home():
     return {"message": "Authentication endpoint", "authenticated": False}
 
 
-@auth_router.post("/create_user")
+@auth_router.post(
+    "/create_user",
+    response_model=UserActionResponse,
+    status_code=status.HTTP_201_CREATED,
+)
 async def create_user(user: UserSchema, session=Depends(get_session)):
-    existing_user = session.query(User).filter(User.email == user.email).first()
-
-    if existing_user:
-        raise HTTPException(status_code=400, detail="User email already exists")
-    else:
-        crypted_password = password_hash.hash(user.password)
-        new_user = User(
-            name=user.name,
-            email=user.email,
-            password=crypted_password,
-            active=user.active,
-            admin=user.admin,
-        )
-        session.add(new_user)
-        session.commit()
-        return {
-            "message": "User created successfully",
-            "user": {"name": new_user.name, "email": new_user.email},
-        }
+    return AuthService(session).create(user)
 
 
-@auth_router.post("/login")
+@auth_router.post("/login", response_model=LoginResponse)
 async def login(login: LoginSchema, session=Depends(get_session)):
-
-    user: User = AuthService(session).user_authetication(login.email, login.password, session)
-
-    if not user:
-        raise HTTPException(
-            status_code=404, detail="user not found or incorrect password"
-        )
-    else:
-        access_token = generate_token(user.id)
-        refresh_token = generate_token(user.id, timedelta(days=7))
-        return {
-            "access_token": access_token,
-            "refresh_token": refresh_token,
-            "token_type": "Bearer",
-        }
+    return AuthService(session).login(login)
 
 
 @auth_router.post("/login-form")
 async def login_form(
     form_data: OAuth2PasswordRequestForm = Depends(), session=Depends(get_session)
 ):
-    user: User = AuthService(session).user_authetication(form_data.username, form_data.password, session)
-
-    if not user:
-        raise HTTPException(
-            status_code=404, detail="user not found or incorrect password"
-        )
-    else:
-        access_token = generate_token(user.id)
-        return {"access_token": access_token, "token_type": "Bearer"}
+    return AuthService(session).login_form(form_data)
 
 
 @auth_router.get("/refresh_token")
-async def use_refresh_token(user: User = Depends(get_current_user)):
-    access_token = generate_token(user.id)
-    return {"access_token": access_token, "token_type": "Bearer"}
+async def use_refresh_token(
+    user: User = Depends(get_current_user), session=Depends(get_session)
+):
+    return AuthService(session).refresh_token(user)

@@ -11,19 +11,7 @@ from security.config import (
     ALGORITHM,
     SECRET_KEY,
     oauth2_schema,
-    password_hash,
 )
-
-
-def user_authetication(
-    email: str, password: str, session: Session = Depends(get_session)
-):
-    user: User = session.query(User).filter(User.email == email).first()
-
-    if not user or not password_hash.verify(password, user.password):
-        return False
-    else:
-        return user
 
 
 def generate_token(
