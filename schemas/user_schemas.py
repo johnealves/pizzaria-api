@@ -13,7 +13,7 @@ class UserSchema(BaseModel):
     active: bool | None = True
     admin: bool | None = False
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 

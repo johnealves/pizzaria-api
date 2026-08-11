@@ -13,7 +13,7 @@ class OrderSchema(BaseModel):
     user_id: int
     items: list[CreateOrderItemSchema]
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -33,7 +33,7 @@ class ItemOrderSchema(BaseModel):
     quantity: int
     unit_price: float
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -43,5 +43,5 @@ class ResponseOrdersSchema(BaseModel):
     total_price: float
     items: list[ItemOrderSchema]
 
-    class Config:
+    class ConfigDict:
         from_attributes = True

@@ -5,7 +5,7 @@ class LoginSchema(BaseModel):
     email: str
     password: str
 
-    class Config:
+    class ConfigDict:
         from_attibutes = True
 
 

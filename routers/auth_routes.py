@@ -11,9 +11,9 @@ from services.auth_service import AuthService
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-@auth_router.get("/")
-async def home():
-    return {"message": "Authentication endpoint", "authenticated": False}
+# @auth_router.get("/")
+# async def home():
+#     return {"message": "Authentication endpoint", "authenticated": False}
 
 
 @auth_router.post(
