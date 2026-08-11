@@ -13,7 +13,7 @@ class ProductSchema(BaseModel):
     is_popular: Optional[bool] = False
     available: Optional[bool] = True
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -25,7 +25,7 @@ class UpdateProductSchema(BaseModel):
     is_popular: bool | None = None
     available: bool | None = None
 
-    class Config:
+    class ConfigDict:
         from_attribute = True
 
 
@@ -39,7 +39,7 @@ class ProductsResponse(BaseModel):
     price: float
     available: bool
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 

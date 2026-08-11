@@ -1,4 +1,6 @@
-products = [
+from schemas.products_schemas import ProductSchema
+
+products: ProductSchema = [
     {
         "id": 1,
         "name": "Mussarela",
