@@ -1,0 +1,34 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    # env_file:
+    #   - .env.docker
+    environment:
+      DATABASE_URL: postgresql+psycopg://pizzaria:pizzaria@postgres:5432/pizzaria
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    
+  postgres:
+    image: postgres:18
+    # env_file:
+    #   - .env.docker
+    environment:
+      POSTGRES_USER: ${pizzaria}
+      POSTGRES_PASSWORD: ${pizzaria}
+      POSTGRES_DB: ${pizzaria}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d {POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

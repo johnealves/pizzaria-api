@@ -4,6 +4,7 @@ from fastapi import HTTPException, status
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
+from core.exceptions import ProductNotFoundException
 from models import Product, User
 from schemas.products_schemas import (
     ProductActionResponse,
@@ -28,7 +29,7 @@ class ProductService:
         )
 
         if not db_product:
-            raise HTTPException(status.HTTP_404_NOT_FOUND, "Product not found.")
+            raise ProductNotFoundException()
 
         return db_product
 
