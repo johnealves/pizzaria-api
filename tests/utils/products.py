@@ -9,7 +9,7 @@ def create_product(session, **kwargs):
         "price": 50.0,
         "category": "Tradicional",
         "is_popular": True,
-        "available": True
+        "available": True,
     }
 
     new_product.update(kwargs)
@@ -21,6 +21,7 @@ def create_product(session, **kwargs):
     session.refresh(product)
 
     return product
+
 
 def create_product_list(session):
     session.add_all(Product(**product) for product in product_data)

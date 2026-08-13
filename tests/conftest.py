@@ -1,31 +1,22 @@
-import os
+from pathlib import Path
 from typing import Generator
 
-from pathlib import Path
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-import pytest
+from sqlalchemy.orm import Session, sessionmaker
 
-from main import app
 from db.base import Base
 from db.dependency import get_session
-from models import User, Order, OrderItem, Product
-
+from main import app
 
 BASE_DIR = Path(__file__).resolve().parent
 TEST_DATABASE_URL = f"sqlite:///{BASE_DIR}/banco_test.db"
 
-engine = create_engine(
-    TEST_DATABASE_URL,
-    connect_args={"check_same_thread": False}
-)
+engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
 
-TestingSessionLocal = sessionmaker(
-    autoflush=False,
-    autocommit=False,
-    bind=engine
-)
+TestingSessionLocal = sessionmaker(autoflush=False, autocommit=False, bind=engine)
+
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_database():
@@ -34,6 +25,7 @@ def setup_database():
     yield
 
     Base.metadata.drop_all(bind=engine)
+
 
 @pytest.fixture(scope="function")
 def session() -> Generator[Session, None, None]:
@@ -47,6 +39,7 @@ def session() -> Generator[Session, None, None]:
     finally:
         db.close()
 
+
 def override_get_session():
     db = TestingSessionLocal()
 
@@ -54,6 +47,7 @@ def override_get_session():
         yield db
     finally:
         db.close()
+
 
 @pytest.fixture(scope="function")
 def client() -> Generator[TestClient, None, None]:
@@ -63,4 +57,3 @@ def client() -> Generator[TestClient, None, None]:
         yield client
 
     app.dependency_overrides.clear()
-    
