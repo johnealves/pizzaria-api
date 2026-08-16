@@ -29,6 +29,7 @@ def get_current_user(
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("sub")
+        print("user_id verification", user_id)
 
         if user_id is None:
             raise HTTPException(status_code=401, detail="Invalid token.")
@@ -36,7 +37,9 @@ def get_current_user(
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
-    user = session.query(User).filter(User.id == user_id).first()
+    user_id = int(user_id)
+
+    user = session.query(User).filter(User.id == int(user_id)).first()
 
     if not user:
         raise HTTPException(

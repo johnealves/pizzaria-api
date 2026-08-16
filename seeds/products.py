@@ -2,7 +2,6 @@ from schemas.products_schemas import ProductSchema
 
 products: ProductSchema = [
     {
-        "id": 1,
         "name": "Mussarela",
         "ingredients": ["Molho", "Mussarela", "Azeitona", "Orégano"],
         "price": 49.90,
@@ -11,7 +10,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 2,
         "name": "Marguerita",
         "ingredients": ["Molho", "Mussarela", "Tomate", "Manjericão", "Orégano"],
         "price": 54.90,
@@ -20,7 +18,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 3,
         "name": "Alho Frito",
         "ingredients": ["Molho", "Mussarela", "Alho Frito na Manteiga"],
         "price": 52.90,
@@ -29,7 +26,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 4,
         "name": "Alho Poró",
         "ingredients": ["Molho", "Mussarela", "Alho Poró"],
         "price": 55.90,
@@ -38,7 +34,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 5,
         "name": "Calabresa",
         "ingredients": ["Molho", "Mussarela", "Calabresa", "Orégano"],
         "price": 53.90,
@@ -47,7 +42,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 6,
         "name": "Presunto",
         "ingredients": ["Molho", "Mussarela", "Presunto", "Azeitona"],
         "price": 54.90,
@@ -56,7 +50,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 7,
         "name": "Toscana",
         "ingredients": ["Molho", "Mussarela", "Calabresa Moída", "Cebola", "Tomate"],
         "price": 56.90,
@@ -65,7 +58,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 8,
         "name": "Bacon Crocante",
         "ingredients": ["Molho", "Mussarela", "Bacon"],
         "price": 59.90,
@@ -74,7 +66,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 9,
         "name": "Bacon e Milho",
         "ingredients": ["Molho", "Mussarela", "Bacon", "Milho"],
         "price": 58.90,
@@ -83,7 +74,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 10,
         "name": "Palmito",
         "ingredients": ["Molho", "Mussarela", "Palmito"],
         "price": 59.90,
@@ -92,7 +82,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 11,
         "name": "Quatro Queijos",
         "ingredients": ["Molho", "Mussarela", "Provolone", "Catupiry", "Parmesão"],
         "price": 64.90,
@@ -101,7 +90,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 12,
         "name": "À Moda",
         "ingredients": [
             "Molho",
@@ -117,7 +105,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 13,
         "name": "Frango com Catupiry",
         "ingredients": ["Molho", "Mussarela", "Frango", "Catupiry"],
         "price": 61.90,
@@ -126,7 +113,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 14,
         "name": "Atum",
         "ingredients": ["Molho", "Mussarela", "Atum", "Cebola"],
         "price": 63.90,
@@ -135,7 +121,6 @@ products: ProductSchema = [
         "available": True,
     },
     {
-        "id": 15,
         "name": "Portuguesa",
         "ingredients": [
             "Molho",
