@@ -71,7 +71,7 @@ class OrderService:
     ) -> CreateOrderResponse:
 
         order = Order(
-            user_id=user.id,
+            user_id=body.user_id,
             status=OrderStatusEnum.PENDENTE,
             total_price=0,
         )
