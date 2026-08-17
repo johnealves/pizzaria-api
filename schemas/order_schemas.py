@@ -41,6 +41,7 @@ class ResponseOrdersSchema(BaseModel):
     id: int
     status: str
     total_price: float
+    user_id: int
     items: list[ItemOrderSchema]
 
     class ConfigDict:
